@@ -11,17 +11,23 @@ class Montage < ApplicationRecord
   validates :left_image, presence: true
   validates :right_image, presence: true
   validates :combined_image, presence: true
-  validates :hash_code, presence:true, uniqueness: true
+  validates :hash_code, presence: true, uniqueness: true
 
   private
 
   def calculate_hash_code
-    left_hash = Digest::SHA256.file left_image.file.file
-    right_hash = Digest::SHA256.file right_image.file.file
-    self.hash_code = Digest::SHA256.hexdigest left_hash.to_s + right_hash.to_s
+    unless left_image.file.nil? || right_image.file.nil?
+      left_hash = Digest::SHA256.file left_image.file.file
+      right_hash = Digest::SHA256.file right_image.file.file
+      self.hash_code = Digest::SHA256.hexdigest left_hash.to_s + right_hash.to_s
+    end
   end
 
   def create_combined_image
+    if left_image.file.nil? || right_image.file.nil?
+      return
+    end
+
     image1 = Image.open left_image.path
     image2 = Image.open right_image.path
     tempfile = Tempfile.new('convert')
