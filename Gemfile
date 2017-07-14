@@ -31,7 +31,12 @@ gem 'jbuilder', '~> 2.5'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'bootstrap-sass'
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'simple_form'
+gem 'logging-rails'
+gem 'carrierwave'
+gem 'bootstrap-filestyle-rails'
+gem 'toastr-rails'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

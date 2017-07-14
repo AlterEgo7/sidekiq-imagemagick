@@ -1,0 +1,6 @@
+<div class="container">
+  <h1>Image Spreadsheet Uploader</h1>
+  <%= simple_form_for :images, method: :post do |f| %>
+      <%= f.input :csv, as: :file, input_html: { class: 'filestyle', :'data-input' => 'false' } %>
+  <% end %>
+</div>
