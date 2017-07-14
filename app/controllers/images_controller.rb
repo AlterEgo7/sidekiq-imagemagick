@@ -1,4 +1,6 @@
 class ImagesController < ApplicationController
+  include MontagesHelper
+
   def upload
   end
 
@@ -6,7 +8,8 @@ class ImagesController < ApplicationController
     if params[:images][:csv].content_type != 'text/csv'
       flash[:error] = 'Uploaded file not csv'
     end
-    flash[:success] = 'Correct file'
+
+    import_csv(params[:images][:csv].tempfile)
     redirect_to root_path
   end
 end

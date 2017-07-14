@@ -1,6 +1,6 @@
 <div class="container">
   <h1>Image Spreadsheet Uploader</h1>
-  <%= simple_form_for :images, method: :post, url: images_perform_upload_path, html: { class: 'image-upload-form' } do |f| %>
+  <%= simple_form_for :images, method: :post, url: images_upload_path, html: { class: 'image-upload-form' } do |f| %>
       <%= f.input :csv, as: :file, input_html: { class: 'filestyle', :'data-buttonBefore' => 'true' } %>
       <%= f.button :submit, 'Upload' %>
   <% end %>

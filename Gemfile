@@ -37,6 +37,7 @@ gem 'logging-rails'
 gem 'carrierwave'
 gem 'bootstrap-filestyle-rails'
 gem 'toastr-rails'
+gem 'mini_magick'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
