@@ -17,4 +17,14 @@ class ImagesController < ApplicationController
     end
     redirect_to root_path
   end
+
+  def download
+    if Montage.count == 0
+      flash[:info] = 'No images uploaded.'
+      redirect_to root_path
+    else
+      csv = export_csv
+      send_data csv, filename: 'montages.csv'
+    end
+  end
 end

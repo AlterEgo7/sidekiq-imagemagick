@@ -14,4 +14,10 @@ module MontagesHelper
     m.right_image = open(row[1])
     m.save # Silent error handling to allow idempotent uploads
   end
+
+  def export_csv
+    CSV.generate do |csv|
+      Montage.all.each { |m| csv << [m.left_image.path, m.right_image.path, m.combined_image.path] }
+    end
+  end
 end
