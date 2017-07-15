@@ -38,6 +38,7 @@ gem 'carrierwave'
 gem 'bootstrap-filestyle-rails'
 gem 'toastr-rails'
 gem 'mini_magick'
+gem 'sidekiq'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

@@ -15,6 +15,7 @@ class ImagesController < ApplicationController
       invalid_link = ex.message.split('-').last.strip
       flash[:error] = "Invalid link in CSV: #{invalid_link}"
     end
+    flash[:info] = 'Upload submitted'
     redirect_to root_path
   end
 
