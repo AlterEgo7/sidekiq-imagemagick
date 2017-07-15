@@ -9,7 +9,12 @@ class ImagesController < ApplicationController
       flash[:error] = 'Uploaded file not csv'
     end
 
-    import_csv(params[:images][:csv].tempfile)
+    begin
+      import_csv(params[:images][:csv].tempfile)
+    rescue Errno::ENOENT => ex
+      invalid_link = ex.message.split('-').last.strip
+      flash[:error] = "Invalid link in CSV: #{invalid_link}"
+    end
     redirect_to root_path
   end
 end
