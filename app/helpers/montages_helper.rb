@@ -11,7 +11,7 @@ module MontagesHelper
 
   def export_csv
     CSV.generate do |csv|
-      Montage.all.each { |m| csv << [m.left_image.path, m.right_image.path, m.combined_image.path] }
+      Montage.all.each { |m| csv << [m.left_image, m.right_image, root_url.chomp('/') + m.combined_image.url] }
     end
   end
 
