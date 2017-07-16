@@ -17,16 +17,19 @@ RSpec.describe MontagesHelper, type: :helper do
     end
 
     it 'should return csv data' do
-      expect(CSV.parse(export_csv)[0]).to eq [@montage.left_image.path, @montage.right_image.path, @montage.combined_image.path]
+      expect(CSV.parse(export_csv)[0]).to eq [@montage.left_image, @montage.right_image, root_url.chomp('/') + @montage.combined_image.url]
     end
   end
 
   describe 'import csv' do
     before do
       @montage_attributes = attributes_for :montage
-      csv = @montage_attributes.values.map(&:path).to_csv
+      csv = @montage_attributes.values.to_csv
       @tempfile = Tempfile.new('csv')
       File.open(@tempfile, 'w') { |f| f.write csv }
+      allow(MontageWorker).to receive(:perform_async) do |row|
+        MontageWorker.new.perform(row)
+      end
       import_csv(@tempfile)
     end
 
@@ -36,8 +39,8 @@ RSpec.describe MontagesHelper, type: :helper do
 
     it 'should create montage' do
       montage = Montage.first
-      expect(FileUtils.compare_file(File.open(montage.left_image.path), File.open(@montage_attributes[:left_image])))
-      expect(FileUtils.compare_file(File.open(montage.right_image.path), File.open(@montage_attributes[:right_image])))
+      expect(FileUtils.compare_file(File.open(montage.left_image), File.open(@montage_attributes[:left_image])))
+      expect(FileUtils.compare_file(File.open(montage.right_image), File.open(@montage_attributes[:right_image])))
     end
   end
 end
