@@ -4,4 +4,6 @@
       <%= f.input :csv, as: :file, input_html: { class: 'filestyle', :'data-buttonBefore' => 'true' } %>
       <%= f.button :submit, 'Upload' %>
   <% end %>
+
+  <%= button_to 'Download Processed', images_download_path, class: 'btn btn-primary', id: 'image-download-button'  %>
 </div>
