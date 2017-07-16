@@ -5,17 +5,17 @@ class ImagesController < ApplicationController
   end
 
   def perform_upload
-    if params[:images][:csv].content_type != 'text/csv'
-      flash[:error] = 'Uploaded file not csv'
+    begin
+      if image_params.content_type != 'text/csv'
+        flash[:error] = 'Uploaded file not csv'
+      else
+        import_csv(image_params.tempfile)
+        flash[:info] = 'Upload submitted'
+      end
+    rescue ActionController::ParameterMissing => er
+      flash[:error] = 'No file uploaded'
     end
 
-    begin
-      import_csv(params[:images][:csv].tempfile)
-    rescue Errno::ENOENT => ex
-      invalid_link = ex.message.split('-').last.strip
-      flash[:error] = "Invalid link in CSV: #{invalid_link}"
-    end
-    flash[:info] = 'Upload submitted'
     redirect_to root_path
   end
 
@@ -27,5 +27,11 @@ class ImagesController < ApplicationController
       csv = export_csv
       send_data csv, filename: 'montages.csv'
     end
+  end
+
+  private
+
+  def image_params
+    params.require(:images).require(:csv)
   end
 end
